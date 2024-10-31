@@ -3,9 +3,9 @@
 require_once __DIR__ . "/model.php";
 
 
-class Owner extends Model{
+class Item extends Model{
 
-    protected $table = "owner";
+    protected $table = "items";
 
        public function create($datas){
           return parent::create_data($datas, $this->table);

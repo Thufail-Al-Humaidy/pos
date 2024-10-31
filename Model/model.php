@@ -1,9 +1,8 @@
 <?php
 
-require_once __DIR__ . "/../Database/conect.php";
-require_once __DIR__ . "/../interface/Model-Interface.php";
+require_once __DIR__ . "/../DB/Conect.php";
 
-abstract class Model extends Conect implements ModelInterface{
+abstract class Model extends Conect{
     public function create_data($datas, $table) {
         $key = array_keys($datas);
         $value = array_values($datas);
@@ -67,6 +66,19 @@ abstract class Model extends Conect implements ModelInterface{
         $query = "DELETE FROM $table WHERE id = $id";
         $result = mysqli_query($this->db, $query);
         return $result;
+    }
+    public function search_data($keyword,$table)
+    {
+        $query = "SELECT * FROM $table, $keyword";
+        $result = mysqli_query($this->db, $query);
+
+        return $this->convert_data($result);
+    }
+    public function paginate_data($limit, $start, $table){
+        $query = "SELECT * FROM $table LIMIT $limit, $start";
+        $result = mysqli_query($this->db, $query);
+
+        return $this->convert_data($result);
     }
     
 }
