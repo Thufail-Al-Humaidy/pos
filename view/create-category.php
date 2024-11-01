@@ -1,3 +1,27 @@
+<?php
+require_once __DIR__ . '/../Model/Model.php';
+require_once __DIR__ . '/../Model/Category.php';
+
+
+
+if (isset($_POST["submit"])) {
+  $category = [
+    "name" => $_POST["name"]
+  ];
+  if(strlen($_POST["name"]) > 225){
+    echo "<script>alert('kategori kepanjangan'); window.location.href = 'create-category.php';</script>";
+    die;
+  }
+  $categories = new category();
+  $result = $categories->create($category);
+  if ($result !== false) {
+    echo "<script>alert('kategori dengan nama {$result['name']} berhasil di tambahkan '); window.location.href = 'create-category.php';</script>";
+  } else {
+    echo "<script>alert('kategori gagal di tambahkan '); window.location.href = 'create-category.php';</script>";
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +74,7 @@
             <div class="row">
               <div class="col-12 col-md-6 col-lg-6">
                 <div class="card">
-                 <img src="../assets/img/image.png" alt="">
+                  <img src="../assets/img/image.png" alt="">
                 </div>
 
 
@@ -60,15 +84,15 @@
                   <div class="card-header">
                     <h4>Input Text</h4>
                   </div>
-                  <div class="card-body">
+                  <form action="" method="POST" class="card-body">
                     <div class="form-group">
                       <label>Nama Category</label>
-                      <input type="text" class="form-control">
+                      <input type="text" name="name" class="form-control">
                     </div>
                     <div class="d-flex justify-content-end">
-                      <button class="btn btn-primary">Tambahkan</button>
+                      <button type="submit" name="submit" class="btn btn-primary">Tambahkan</button>
                     </div>
-                  </div>
+                    </form>
                 </div>
 
 

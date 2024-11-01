@@ -2,8 +2,16 @@
 require_once __DIR__ . '/../Model/Model.php';
 require_once __DIR__ . '/../Model/Category.php';
 
-$categories = new category();
-$categories = $categories->all();
+$limit = 3;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$start = ($page > 1) ? ($page * $limit) - $limit : 0;
+
+
+$categoryModel = new Category();
+$totalData = count($categoryModel->all());
+$totalPage = ceil($totalData / $limit);
+
+$categories = $categoryModel->paginate($limit, $start);
 
 
 ?>
@@ -110,9 +118,43 @@ $categories = $categories->all();
 
                     </div>
                   </div>
+                  <div class="card-body">
+                    <div class="buttons">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                          <?php if ($page > 1): ?>
+                            <li class="page-item">
+                              <a class="page-link" href="?page=<?= $page - 1 ?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                          <?php endif; ?>
+
+                          <?php for ($i = 1; $i <= $totalPage; $i++): ?>
+                            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                              <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                            </li>
+                          <?php endfor; ?>
+
+                          <?php if ($page < $totalPage): ?>
+                            <li class="page-item">
+                              <a class="page-link" href="?page=<?= $page + 1 ?>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                              </a>
+                            </li>
+                          <?php endif; ?>
+                        </ul>
+
+                      </nav>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
+
           </div>
         </section>
       </div>
@@ -138,7 +180,7 @@ $categories = $categories->all();
   <script src="../dist/assets/js/custom.js"></script>
   <script src="../dist/assets/modules/jquery.min.js"></script>
 
-  <script src="../assets/js/live.js">  
+  <script src="../assets/js/live.js">
   </script>
 
 </body>

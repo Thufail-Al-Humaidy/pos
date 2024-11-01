@@ -74,12 +74,15 @@ abstract class Model extends Conect{
 
         return $this->convert_data($result);
     }
-    public function paginate_data($limit, $start, $table){
-        $query = "SELECT * FROM $table LIMIT $limit, $start";
+    
+    public function paginate_data($limit, $start, $table)
+    {
+        $query = "SELECT * FROM $table LIMIT $start, $limit";
         $result = mysqli_query($this->db, $query);
 
         return $this->convert_data($result);
     }
+
     
 }
 

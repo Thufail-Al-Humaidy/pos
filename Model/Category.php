@@ -37,8 +37,9 @@ class Category extends Model
         $keyword = "WHERE name LIKE '%{$keyword}%'";
         return parent::search_data($keyword, $this->table);
     }
-    // public function paginate_data($limit, $start)
-    // {
-    //     return parent::paginate_data($limit, $start, $this->table);
-    // }
+    
+    public function paginate($limit, $start)
+    {
+        return parent::paginate_data($limit, $start, $this->table);
+    }
 }
